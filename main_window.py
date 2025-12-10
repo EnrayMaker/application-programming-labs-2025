@@ -11,3 +11,14 @@ try:
     from lab2 import ImagePathIterator  # Если сохранен как lab2_code.py
 except ImportError as e:
     raise Exception(f"Ошибка при импортировании лабораторной 2 {e}")
+
+def main():
+    """Запуск приложения"""
+    app = QApplication(sys.argv)
+    viewer = ImageViewer()
+    viewer.show()
+    sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    main()
