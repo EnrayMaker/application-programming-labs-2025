@@ -8,7 +8,7 @@ from PyQt5.QtCore import Qt
 
 # Импортируем итератор из второй лабораторной работы
 try:
-    from lab2 import ImagePathIterator  # Если сохранен как lab2_code.py
+    from lab2 import ImagePathIterator
 except ImportError as e:
     raise Exception(f"Ошибка при импортировании лабораторной 2 {e}")
 
@@ -32,27 +32,24 @@ class ImageViewer(QMainWindow):
         main_layout = QVBoxLayout()
         central_widget.setLayout(main_layout)
         
-        # Панель управления (кнопки выбора)
+        # Панель управления
         control_panel = QHBoxLayout()
         
-        # Кнопка выбора папки
+        # Кнопка выбора
         self.btn_select_folder = QPushButton("Выбрать папку с изображениями")
         self.btn_select_folder.clicked.connect(self.select_folder)
         control_panel.addWidget(self.btn_select_folder)
         
-        # Кнопка выбора файла аннотации
         self.btn_select_annotation = QPushButton("Выбрать файл аннотации")
         self.btn_select_annotation.clicked.connect(self.select_annotation)
         control_panel.addWidget(self.btn_select_annotation)
         
         main_layout.addLayout(control_panel)
         
-        # Метка для отображения информации
         self.lbl_info = QLabel("Выберите папку с изображениями или файл аннотации")
         self.lbl_info.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(self.lbl_info)
         
-        # Метка для отображения изображения
         self.lbl_image = QLabel()
         self.lbl_image.setAlignment(Qt.AlignCenter)
         self.lbl_image.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -63,21 +60,18 @@ class ImageViewer(QMainWindow):
         # Панель навигации
         nav_panel = QHBoxLayout()
         
-        # Кнопка предыдущего изображения
-        self.btn_prev = QPushButton("← Предыдущее")
+        self.btn_prev = QPushButton("Предыдущее")
         self.btn_prev.clicked.connect(self.show_previous_image)
         self.btn_prev.setEnabled(False)
         nav_panel.addWidget(self.btn_prev)
         
-        # Кнопка следующего изображения
-        self.btn_next = QPushButton("Следующее →")
+        self.btn_next = QPushButton("Следующее")
         self.btn_next.clicked.connect(self.show_next_image)
         self.btn_next.setEnabled(False)
         nav_panel.addWidget(self.btn_next)
         
         main_layout.addLayout(nav_panel)
         
-        # Статусная строка
         self.statusBar().showMessage("Готово")
         
     def select_folder(self):
@@ -126,10 +120,10 @@ class ImageViewer(QMainWindow):
                     self.current_image_path = self.image_iterator.file_paths[self.image_iterator.current_index]
                     self.image_iterator.current_index += 1
                     
-                    # Загружаем и отображаем изображение
+                    # отображаем изображение
                     self.display_image(self.current_image_path)
                     
-                    # Обновляем информацию
+                    # Обновляем
                     self.lbl_info.setText(
                         f"Изображение {self.image_iterator.current_index} из {len(self.image_iterator)}"
                     )
@@ -141,21 +135,21 @@ class ImageViewer(QMainWindow):
         """Показать предыдущее изображение"""
         if self.image_iterator and len(self.image_iterator) > 0:
             try:
-                # Переходим на предыдущее изображение
+                # предыдущее
                 if self.image_iterator.current_index > 1:
                     self.image_iterator.current_index -= 2
                 else:
-                    # Если мы на первом изображении - переходим к последнему
+                    # Если мы на первом изображении переходим к последнему
                     self.image_iterator.current_index = len(self.image_iterator.file_paths) - 1
                 
                 if self.image_iterator.current_index >= 0:
                     self.current_image_path = self.image_iterator.file_paths[self.image_iterator.current_index]
                     self.image_iterator.current_index += 1
                     
-                    # Загружаем и отображаем изображение
+                    # Загружаем и отображаем
                     self.display_image(self.current_image_path)
                     
-                    # Обновляем информацию
+                    # Обновляем 
                     self.lbl_info.setText(
                         f"Изображение {self.image_iterator.current_index} из {len(self.image_iterator)}"
                     )
@@ -179,7 +173,7 @@ class ImageViewer(QMainWindow):
                 self.lbl_image.setPixmap(QPixmap())
                 return
             
-            # Получаем размеры виджета для отображения
+            # Получаем размеры
             label_width = self.lbl_image.width()
             label_height = self.lbl_image.height()
             
@@ -187,11 +181,11 @@ class ImageViewer(QMainWindow):
             scaled_pixmap = pixmap.scaled(
                 label_width, 
                 label_height, 
-                Qt.KeepAspectRatio,  # Сохраняем пропорции
-                Qt.SmoothTransformation  # Плавное масштабирование
+                Qt.KeepAspectRatio,  # пропорции
+                Qt.SmoothTransformation  # масштабирование
             )
             
-            # Устанавливаем изображение
+            # изображение
             self.lbl_image.setPixmap(scaled_pixmap)
             
         except Exception as e:
@@ -200,7 +194,7 @@ class ImageViewer(QMainWindow):
     def resizeEvent(self, event):
         """Обработчик изменения размера окна"""
         super().resizeEvent(event)
-        # При изменении размера окна перерисовываем текущее изображение
+        # При изменении размера окна перерисовываем изображение
         if self.current_image_path:
             self.display_image(self.current_image_path)
 
