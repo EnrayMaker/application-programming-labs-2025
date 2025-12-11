@@ -74,7 +74,7 @@ class ImageViewer(QMainWindow):
         
         self.statusBar().showMessage("Готово")
         
-    def select_folder(self):
+    def select_folder(self) -> None:
         """Выбор папки с изображениями"""
         folder_path = QFileDialog.getExistingDirectory(self, "Выберите папку с изображениями")
         if folder_path:
@@ -88,7 +88,7 @@ class ImageViewer(QMainWindow):
             except Exception as e:
                 QMessageBox.critical(self, "Ошибка", f"Не удалось загрузить изображения: {e}")
                 
-    def select_annotation(self):
+    def select_annotation(self) -> None:
         """Выбор файла аннотации"""
         file_path, _ = QFileDialog.getOpenFileName(
             self, 
@@ -107,7 +107,7 @@ class ImageViewer(QMainWindow):
             except Exception as e:
                 QMessageBox.critical(self, "Ошибка", f"Не удалось загрузить аннотацию: {e}")
     
-    def show_next_image(self):
+    def show_next_image(self) -> None:
         """Показать следующее изображение"""
         if self.image_iterator and len(self.image_iterator) > 0:
             try:
@@ -131,7 +131,7 @@ class ImageViewer(QMainWindow):
             except Exception as e:
                 QMessageBox.warning(self, "Ошибка", f"Не удалось загрузить изображение: {e}")
     
-    def show_previous_image(self):
+    def show_previous_image(self) -> None:
         """Показать предыдущее изображение"""
         if self.image_iterator and len(self.image_iterator) > 0:
             try:
@@ -191,7 +191,7 @@ class ImageViewer(QMainWindow):
         except Exception as e:
             self.lbl_image.setText(f"Ошибка загрузки: {str(e)}")
     
-    def resizeEvent(self, event):
+    def resizeEvent(self, event) -> None:
         """Обработчик изменения размера окна"""
         super().resizeEvent(event)
         # При изменении размера окна перерисовываем изображение
@@ -199,7 +199,7 @@ class ImageViewer(QMainWindow):
             self.display_image(self.current_image_path)
 
 
-def main():
+def main() -> None:
     """Запуск приложения"""
     app = QApplication(sys.argv)
     viewer = ImageViewer()
